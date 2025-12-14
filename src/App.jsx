@@ -17,6 +17,7 @@ export const goodsFromServer = [
 
 function sortArr(sortField, array) {
   const arr = [...array];
+
   if (sortField === 'alphabetically') {
     return arr.sort();
   }
@@ -28,6 +29,8 @@ function sortArr(sortField, array) {
   if (sortField === '') {
     return arr;
   }
+
+  return arr;
 }
 
 export const App = () => {
@@ -42,8 +45,9 @@ export const App = () => {
   return (
     <div className="section content">
       <div className="buttons">
-        <button type="button"
-          className={`button is-info ${sortField === 'alphabetically' ? '' : 'is-light' }`}
+        <button
+          type="button"
+          className={`button is-info ${sortField === 'alphabetically' ? '' : 'is-light'}`}
           onClick={() => setSortField('alphabetically')}
         >
           Sort alphabetically
@@ -60,30 +64,32 @@ export const App = () => {
         <button
           type="button"
           className={`button is-warning ${isReversed ? '' : 'is-light'}`}
-          onClick={() => isReversed === false ? setIsReversed(true) : setIsReversed(false)}
+          onClick={() =>
+            isReversed === false ? setIsReversed(true) : setIsReversed(false)
+          }
         >
           Reverse
         </button>
-        {
-          sortField !== '' &&
+        {sortField !== '' || isReversed === true ?
           <button
             type="button"
-            className="button is-danger is-light"
-            onClick={() => setSortField('')}
+            className={`button is-danger is-light`}
+            onClick={() => {setSortField(''); setIsReversed(false)}}
           >
             Reset
-          </button>
+          </button> :
+          null
         }
       </div>
 
       <ul>
-        {
-          visibleGoods.map((good) => {
-            return (
-              <li key={good} data-cy="Good">{good}</li>
-            )
-          })
-        }
+        {visibleGoods.map(good => {
+          return (
+            <li key={good} data-cy="Good">
+              {good}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
